@@ -23,7 +23,7 @@ export const site = {
   // Placeholder CV — replace public/cv.pdf with your real CV.
   cvUrl: "/cv.pdf",
   // Placeholder domain — update after your first Cloudflare Pages deploy.
-  siteUrl: "https://personal-portfolio.pages.dev",
+  siteUrl: "https://myprofile.fahim500k.workers.dev",
 } as const;
 
 export type SiteConfig = typeof site;
