@@ -17,6 +17,7 @@ export default function Admin() {
   const [savedAt, setSavedAt] = useState<string | null>(null);
   const [importMsg, setImportMsg] = useState("");
   const [preview, setPreview] = useState(false);
+  const [confirmReset, setConfirmReset] = useState(false);
   const json = useMemo(() => JSON.stringify(draft, null, 2), [draft]);
 
   const save = () => {
@@ -36,11 +37,16 @@ export default function Admin() {
       catch { setImportMsg("Import failed: not valid JSON."); }
     }).catch(() => setImportMsg("Import failed: could not read the file."));
   };
+  // Two-step in-page confirm on purpose: window.confirm() is silently
+  // auto-dismissed by some browsers/automation, which made Reset look
+  // broken (reported 2026-11-10 — Reset never ran). This always works.
   const reset = () => {
-    if (!window.confirm("Reset the local draft to the built-in content? Your local edits will be lost.")) return;
+    if (!confirmReset) { setConfirmReset(true); return; }
     clearDraft();
     setDraft(getContent());
     setSavedAt(null);
+    setConfirmReset(false);
+    setImportMsg("Local draft cleared — Home now shows the built-in content again.");
   };
 
   const edit = (path: string, value: string) => {
@@ -71,7 +77,7 @@ export default function Admin() {
           <input type="file" accept="application/json" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) importJson(f); }} />
         </label>
         <button onClick={() => setPreview((p) => !p)} className="inline-flex items-center gap-1 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium dark:border-slate-700 dark:bg-slate-900"><Eye className="h-4 w-4" /> {preview ? "Hide preview" : "Preview JSON"}</button>
-        <button onClick={reset} className="inline-flex items-center gap-1 rounded-full border border-red-200 bg-white px-4 py-2 text-sm font-medium text-red-600 dark:border-red-900 dark:bg-slate-900"><RotateCcw className="h-4 w-4" /> Reset</button>
+        <button onClick={reset} onBlur={() => setConfirmReset(false)} className="inline-flex items-center gap-1 rounded-full border border-red-200 bg-white px-4 py-2 text-sm font-medium text-red-600 dark:border-red-900 dark:bg-slate-900"><RotateCcw className="h-4 w-4" /> {confirmReset ? "Click again to confirm reset" : "Reset"}</button>
         <a href="#home" className="rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white dark:bg-white dark:text-slate-900">← Back to site</a>
       </div>
       {savedAt && <p className="mt-3 text-sm text-emerald-700" role="status">Saved locally at {savedAt}. It now shows on Home in this browser. Remember: it does NOT update the live site for everyone until you export + commit.</p>}
