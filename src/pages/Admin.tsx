@@ -40,6 +40,31 @@ export default function Admin() {
   // Two-step in-page confirm on purpose: window.confirm() is silently
   // auto-dismissed by some browsers/automation, which made Reset look
   // broken (reported 2026-11-10 — Reset never ran). This always works.
+  // Photo upload: downscale to max 512px JPEG so it fits in localStorage
+  // (~5 MB limit) and in the exported JSON. Keeps the original file out.
+  const onPhotoFile = (file: File) => {
+    if (!file.type.startsWith("image/")) { setImportMsg("Please choose an image file."); return; }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const max = 512;
+        const scale = Math.min(1, max / Math.max(img.width, img.height));
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.max(1, Math.round(img.width * scale));
+        canvas.height = Math.max(1, Math.round(img.height * scale));
+        const ctx = canvas.getContext("2d");
+        if (!ctx) { setImportMsg("Could not process this image."); return; }
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        edit("site.photo", canvas.toDataURL("image/jpeg", 0.85));
+        setImportMsg("Photo ready — click “Save locally” to keep it in this browser.");
+      };
+      img.onerror = () => setImportMsg("Could not read this image file.");
+      img.src = String(reader.result);
+    };
+    reader.onerror = () => setImportMsg("Could not read this file.");
+    reader.readAsDataURL(file);
+  };
   const reset = () => {
     if (!confirmReset) { setConfirmReset(true); return; }
     clearDraft();
@@ -95,6 +120,26 @@ export default function Admin() {
           <textarea id="site.bio" rows={3} value={siteDraft.bio ?? ""} onChange={(e) => edit("site.bio", e.target.value)} className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800" /></div>
         <div className="mt-4"><label htmlFor="about.intro" className="mb-1 block text-sm font-medium">About — introduction</label>
           <textarea id="about.intro" rows={3} value={String(aboutDraft.intro ?? "")} onChange={(e) => edit("about.intro", e.target.value)} className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800" /></div>
+        <h3 className="mt-6 text-base font-semibold text-slate-900 dark:text-white">Profile photo</h3>
+        <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Upload a photo or paste an image URL. Uploaded photos are resized to max 512px and stored in this browser only — to publish one for everyone, Export JSON and send it to Muse.</p>
+        <div className="mt-3 flex flex-wrap items-center gap-4">
+          {siteDraft.photo ? (
+            <img src={siteDraft.photo} alt="Profile photo preview" className="h-20 w-20 rounded-full object-cover ring-2 ring-slate-200 dark:ring-slate-700" />
+          ) : (
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-indigo-600 text-2xl font-bold text-white">F</div>
+          )}
+          <div className="flex flex-wrap gap-2">
+            <label className="inline-flex cursor-pointer items-center gap-1 rounded-full bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700">
+              Upload photo
+              <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) onPhotoFile(f); e.target.value = ""; }} />
+            </label>
+            {siteDraft.photo && (
+              <button onClick={() => edit("site.photo", "")} className="rounded-full border border-red-200 px-4 py-2 text-sm font-medium text-red-600 dark:border-red-900">Remove photo</button>
+            )}
+          </div>
+        </div>
+        <div className="mt-3"><label htmlFor="site.photo" className="mb-1 block text-sm font-medium">Or photo URL</label>
+          <input id="site.photo" inputMode="url" placeholder="https://…/photo.jpg" value={siteDraft.photo?.startsWith("data:") ? "" : (siteDraft.photo ?? "")} onChange={(e) => edit("site.photo", e.target.value)} className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800" /></div>
         <h3 className="mt-6 text-base font-semibold text-slate-900 dark:text-white">Social links</h3>
         <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Full URLs (starting with https://). Leave a field as “#” or empty to hide that icon on Home.</p>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">

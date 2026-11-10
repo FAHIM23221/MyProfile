@@ -33,6 +33,7 @@ export interface SiteDraft {
   linkedin: string;
   twitter: string;
   youtube: string;
+  photo: string;
   cvUrl: string;
   siteUrl: string;
 }

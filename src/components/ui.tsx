@@ -70,7 +70,13 @@ export function SectionHeading({ eyebrow, title, sub }: { eyebrow: string; title
 }
 
 export function Avatar({ size = "lg" }: { size?: "lg" | "sm" }) {
+  const { site } = getContent();
   const cls = size === "lg" ? "h-40 w-40 text-5xl sm:h-48 sm:w-48" : "h-12 w-12 text-xl";
+  if (site.photo) {
+    return (
+      <img src={site.photo} alt={`Profile photo of ${site.name}`} className={`${cls} rounded-full object-cover shadow-lg ring-4 ring-white dark:ring-slate-800`} />
+    );
+  }
   return (
     <div role="img" aria-label="Placeholder profile photo — initials F" className={`${cls} flex items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-indigo-600 font-bold text-white shadow-lg ring-4 ring-white dark:ring-slate-800`}>
       F
