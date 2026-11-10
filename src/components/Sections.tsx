@@ -15,7 +15,7 @@ export function Hero() {
             <span className="h-2 w-2 rounded-full bg-emerald-500" aria-hidden /> Available for opportunities — update this in site.ts
           </p>
           <h1 className="mt-5 text-4xl font-bold leading-tight tracking-tight text-slate-900 sm:text-5xl lg:text-6xl dark:text-white">
-            Hi, I&rsquo;m <span className="bg-gradient-to-r from-sky-600 to-indigo-600 bg-clip-text text-transparent">Fahim</span>
+            Hi, I&rsquo;m <span className="bg-gradient-to-r from-sky-600 to-indigo-600 bg-clip-text text-transparent">FAHIM KHAN</span>
           </h1>
           <p className="mt-3 text-xl font-medium text-slate-700 dark:text-slate-300">{site.title}</p>
           <p className="mt-4 max-w-xl leading-relaxed text-slate-600 dark:text-slate-400">{site.bio}</p>
@@ -301,14 +301,14 @@ export function Contact() {
   return (
     <section id="contact" aria-labelledby="contact-heading" className="border-t border-slate-100 bg-slate-50/60 py-16 dark:border-slate-800 dark:bg-slate-900/40">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <SectionHeading eyebrow="Contact" title="Get in Touch" sub="Messages are NOT stored on this site — there is no backend yet. Submitting opens your own email app addressed to Fahim." />
+        <SectionHeading eyebrow="Contact" title="Get in Touch" sub="Messages are NOT stored on this site — there is no backend yet. Submitting opens your own email app addressed to FAHIM KHAN." />
         <div className="grid gap-6 md:grid-cols-[1fr_1.4fr]">
           <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
             <h3 className="font-semibold text-slate-900 dark:text-white">Contact details</h3>
             <p className="mt-3 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400"><Mail className="h-4 w-4 text-sky-600" /><a className="text-sky-600 hover:underline" href={`mailto:${site.email}`}>{site.email}</a></p>
             <p className="mt-2 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400"><MapPin className="h-4 w-4 text-sky-600" />{site.location}</p>
             <div className="mt-5"><SocialLinks size="sm" /></div>
-            <p className="mt-5 rounded-xl bg-amber-50 p-3 text-xs leading-relaxed text-amber-800 dark:bg-amber-950 dark:text-amber-200">Email address above is a placeholder until Fahim provides his real one. To store messages securely later, a backend (e.g. Cloudflare Workers + D1, or a form service) would need to be added — see README § Free-tier options.</p>
+            <p className="mt-5 rounded-xl bg-amber-50 p-3 text-xs leading-relaxed text-amber-800 dark:bg-amber-950 dark:text-amber-200">Email address above is a placeholder until FAHIM KHAN provides his real one. To store messages securely later, a backend (e.g. Cloudflare Workers + D1, or a form service) would need to be added — see README § Free-tier options.</p>
           </div>
           <form onSubmit={submit} noValidate className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
             <div className="grid gap-4 sm:grid-cols-2">

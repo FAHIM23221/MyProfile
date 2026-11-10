@@ -228,7 +228,7 @@ export const certificates: Certificate[] = [
 ];
 
 export const seo = {
-  title: "Fahim — Personal Portfolio",
+  title: "FAHIM KHAN — Personal Portfolio",
   description:
-    "Personal portfolio of Fahim — projects, skills, experience and contact.",
+    "Personal portfolio of FAHIM KHAN — projects, skills, experience and contact.",
 };

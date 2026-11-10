@@ -30,7 +30,7 @@ export function Navbar({ dark, onToggleDark }: { dark: boolean; onToggleDark: ()
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/85 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6" aria-label="Main navigation">
-        <a href="#home" className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">Fahim<span className="text-sky-600">.</span></a>
+        <a href="#home" className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">FAHIM KHAN<span className="text-sky-600">.</span></a>
         <ul className="hidden items-center gap-5 text-sm font-medium text-slate-600 md:flex dark:text-slate-300">
           {NAV.map((n) => (
             <li key={n.href}><a className="transition hover:text-sky-600" href={n.href}>{n.label}</a></li>
@@ -102,14 +102,14 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
           <div>
-            <p className="text-lg font-bold text-slate-900 dark:text-white">Fahim</p>
+            <p className="text-lg font-bold text-slate-900 dark:text-white">FAHIM KHAN</p>
             <p className="mt-1 flex items-center gap-1 text-sm text-slate-500"><MapPin className="h-4 w-4" /> {site.location} · <a className="text-sky-600 hover:underline" href={`mailto:${site.email}`}>{site.email}</a></p>
             <p className="mt-1 text-xs text-slate-400">Placeholder contact details — update in src/config/site.ts.</p>
           </div>
           <SocialLinks size="sm" />
         </div>
         <div className="mt-8 flex flex-col items-start justify-between gap-4 border-t border-slate-100 pt-6 text-sm text-slate-500 sm:flex-row sm:items-center dark:border-slate-800">
-          <p>© {new Date().getFullYear()} Fahim. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} FAHIM KHAN. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <a href="#home" className="hover:text-sky-600">Home</a>
             <a href="#projects" className="hover:text-sky-600">Projects</a>
