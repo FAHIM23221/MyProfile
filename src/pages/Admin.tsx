@@ -143,7 +143,7 @@ export default function Admin() {
         <h3 className="mt-6 text-base font-semibold text-slate-900 dark:text-white">Social links</h3>
         <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Full URLs (starting with https://). Leave a field as “#” or empty to hide that icon on Home.</p>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          {([["site.github", "GitHub URL"], ["site.linkedin", "LinkedIn URL"], ["site.twitter", "X / Twitter URL"], ["site.youtube", "YouTube URL"]] as const).map(([path, label]) => (
+          {([["site.github", "GitHub URL"], ["site.linkedin", "LinkedIn URL"], ["site.twitter", "X / Twitter URL"], ["site.youtube", "YouTube URL"], ["site.whatsapp", "WhatsApp number (8801XXXXXXXXX — no + or spaces)"]] as const).map(([path, label]) => (
             <div key={path}><label htmlFor={path} className="mb-1 block text-sm font-medium">{label}</label>
               <input id={path} inputMode="url" placeholder="https://" value={String(siteDraft[path.split(".")[1] as keyof typeof siteDraft] ?? "")} onChange={(e) => edit(path, e.target.value)} className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800" /></div>
           ))}

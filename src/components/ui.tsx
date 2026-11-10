@@ -1,7 +1,27 @@
 import { useEffect, useState } from "react";
-import { Moon, Sun, Menu, X, ArrowUp, Download, Mail, MapPin } from "lucide-react";
+import { Moon, Sun, Menu, X, ArrowUp, Download, Mail, MapPin, MessageCircle } from "lucide-react";
 import { GithubIcon, LinkedinIcon, XIcon, YoutubeIcon } from "./BrandIcons";
 import { getContent } from "../lib/content";
+
+/** wa.me link for a number stored without "+" or spaces. "" when unset. */
+export function whatsAppUrl(): string {
+  const digits = getContent().site.whatsapp.replace(/\D/g, "");
+  if (!digits) return "";
+  const text = encodeURIComponent("Hi, I found your portfolio and wanted to get in touch.");
+  return `https://wa.me/${digits}?text=${text}`;
+}
+
+/** Floating WhatsApp chat button — only shown once a number is set. */
+export function WhatsAppButton() {
+  const url = whatsAppUrl();
+  if (!url) return null;
+  return (
+    <a href={url} target="_blank" rel="noreferrer" aria-label="Chat on WhatsApp" title="Chat on WhatsApp"
+      className="fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25d366] text-white shadow-lg transition hover:scale-105 hover:bg-[#1eb856] focus:outline-none focus:ring-2 focus:ring-[#25d366] focus:ring-offset-2">
+      <MessageCircle className="h-7 w-7" />
+    </a>
+  );
+}
 
 export function useDarkMode() {
   const [dark, setDark] = useState(() => {
@@ -93,6 +113,7 @@ export function SocialLinks({ size = "md" }: { size?: "md" | "sm" }) {
     { href: site.linkedin, label: "LinkedIn (placeholder link — update in site.ts)", Icon: LinkedinIcon },
     { href: site.twitter, label: "X / Twitter (placeholder link)", Icon: XIcon },
     { href: site.youtube, label: "YouTube (placeholder link)", Icon: YoutubeIcon },
+    { href: whatsAppUrl(), label: "WhatsApp (chat)", Icon: MessageCircle },
   ].filter((l) => l.href && l.href !== "#");
   return (
     <div className="flex items-center gap-3">

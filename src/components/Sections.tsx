@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, Award, BookOpen, Briefcase, Code, Database, ExternalLink, Filter, GraduationCap, Layout, Mail, MapPin, Send, Server, Shield, Sparkles, Wrench, X } from "lucide-react";
+import { ArrowRight, Award, BookOpen, Briefcase, Code, Database, ExternalLink, Filter, GraduationCap, Layout, Mail, MapPin, MessageCircle, Send, Server, Shield, Sparkles, Wrench, X } from "lucide-react";
 import { GithubIcon } from "./BrandIcons";
 import { getContent } from "../lib/content";
 import { type Project } from "../data/portfolio";
-import { Avatar, DownloadCvButton, SectionHeading, SocialLinks } from "./ui";
+import { Avatar, DownloadCvButton, SectionHeading, SocialLinks, whatsAppUrl } from "./ui";
 
 /* ---------- HERO ---------- */
 export function Hero() {
@@ -316,6 +316,11 @@ export function Contact() {
             <h3 className="font-semibold text-slate-900 dark:text-white">Contact details</h3>
             <p className="mt-3 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400"><Mail className="h-4 w-4 text-sky-600" /><a className="text-sky-600 hover:underline" href={`mailto:${site.email}`}>{site.email}</a></p>
             <p className="mt-2 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400"><MapPin className="h-4 w-4 text-sky-600" />{site.location}</p>
+            {whatsAppUrl() && (
+              <a href={whatsAppUrl()} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#25d366] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#1eb856]">
+                <MessageCircle className="h-4 w-4" /> Chat on WhatsApp
+              </a>
+            )}
             <div className="mt-5"><SocialLinks size="sm" /></div>
             <p className="mt-5 rounded-xl bg-amber-50 p-3 text-xs leading-relaxed text-amber-800 dark:bg-amber-950 dark:text-amber-200">Email address above is a placeholder until {site.name} provides his real one. To store messages securely later, a backend (e.g. Cloudflare Workers + D1, or a form service) would need to be added — see README § Free-tier options.</p>
           </div>

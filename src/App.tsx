@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Footer, Navbar, useDarkMode } from "./components/ui";
+import { Footer, Navbar, WhatsAppButton, useDarkMode } from "./components/ui";
 import { About, Certificates, Contact, Experience, GitHubSection, Hero, Projects, Skills } from "./components/Sections";
 import Admin from "./pages/Admin";
 
@@ -57,6 +57,7 @@ export default function App() {
           <Contact />
         </main>
       )}
+      {route === "home" && <WhatsAppButton />}
       <Footer />
     </div>
   );

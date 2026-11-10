@@ -20,6 +20,9 @@ export const site = {
   linkedin: "#",
   twitter: "#",
   youtube: "#",
+  // WhatsApp number in international format WITHOUT "+" or spaces,
+  // e.g. "8801XXXXXXXXX". Empty ("") hides the WhatsApp button.
+  whatsapp: "",
   // Profile photo: a URL (e.g. "/profile.jpg") or "" for the initials avatar.
   // The Admin panel can also upload a photo (stored in that browser only).
   photo: "",
