@@ -81,12 +81,13 @@ export function Avatar({ size = "lg" }: { size?: "lg" | "sm" }) {
 export function SocialLinks({ size = "md" }: { size?: "md" | "sm" }) {
   const { site } = getContent();
   const btn = size === "md" ? "p-3" : "p-2";
+  // Hide icons whose link was never set ("#" placeholder or empty).
   const links = [
     { href: site.github, label: "GitHub profile (github.com/FAHIM23221)", Icon: GithubIcon },
     { href: site.linkedin, label: "LinkedIn (placeholder link — update in site.ts)", Icon: LinkedinIcon },
     { href: site.twitter, label: "X / Twitter (placeholder link)", Icon: XIcon },
     { href: site.youtube, label: "YouTube (placeholder link)", Icon: YoutubeIcon },
-  ];
+  ].filter((l) => l.href && l.href !== "#");
   return (
     <div className="flex items-center gap-3">
       {links.map(({ href, label, Icon }) => (
