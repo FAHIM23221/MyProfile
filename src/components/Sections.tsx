@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, Award, BookOpen, Briefcase, Code, Database, ExternalLink, Filter, GraduationCap, Layout, Mail, MapPin, Send, Server, Shield, Sparkles, Wrench, X } from "lucide-react";
 import { GithubIcon } from "./BrandIcons";
-import { site } from "../config/site";
-import { about, certificates, projectCategories, projects, skillCategories, timeline, type Project } from "../data/portfolio";
+import { getContent } from "../lib/content";
+import { type Project } from "../data/portfolio";
 import { Avatar, DownloadCvButton, SectionHeading, SocialLinks } from "./ui";
 
 /* ---------- HERO ---------- */
 export function Hero() {
+  const { site } = getContent();
   return (
     <section id="home" className="mx-auto max-w-6xl px-4 pb-16 pt-14 sm:px-6 sm:pt-20">
       <div className="grid items-center gap-10 md:grid-cols-[1fr_auto]">
@@ -15,7 +16,7 @@ export function Hero() {
             <span className="h-2 w-2 rounded-full bg-emerald-500" aria-hidden /> Available for opportunities — update this in site.ts
           </p>
           <h1 className="mt-5 text-4xl font-bold leading-tight tracking-tight text-slate-900 sm:text-5xl lg:text-6xl dark:text-white">
-            Hi, I&rsquo;m <span className="bg-gradient-to-r from-sky-600 to-indigo-600 bg-clip-text text-transparent">FAHIM KHAN</span>
+            Hi, I&rsquo;m <span className="bg-gradient-to-r from-sky-600 to-indigo-600 bg-clip-text text-transparent">{site.name}</span>
           </h1>
           <p className="mt-3 text-xl font-medium text-slate-700 dark:text-slate-300">{site.title}</p>
           <p className="mt-4 max-w-xl leading-relaxed text-slate-600 dark:text-slate-400">{site.bio}</p>
@@ -41,6 +42,7 @@ export function Hero() {
 
 /* ---------- ABOUT ---------- */
 export function About() {
+  const { about } = getContent();
   return (
     <section id="about" aria-labelledby="about-heading" className="border-t border-slate-100 bg-slate-50/60 py-16 dark:border-slate-800 dark:bg-slate-900/40">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -72,6 +74,7 @@ const LEVEL_STYLE: Record<string, string> = {
   Building: "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-800",
 };
 export function Skills() {
+  const { skillCategories } = getContent();
   return (
     <section id="skills" aria-labelledby="skills-heading" className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
       <SectionHeading eyebrow="Skills" title="Skills & Technologies" sub="Honest self-assessed tags only — Learning / Familiar / Building. No invented percentages or qualifications." />
@@ -99,6 +102,8 @@ export function Skills() {
 
 /* ---------- PROJECTS ---------- */
 export function Projects() {
+  const { projects } = getContent();
+  const projectCategories = useMemo(() => ["All", ...Array.from(new Set(projects.map((p) => p.category)))], [projects]);
   const [filter, setFilter] = useState("All");
   const [selected, setSelected] = useState<Project | null>(null);
   const filtered = useMemo(() => filter === "All" ? projects : projects.filter((p) => p.category === filter), [filter]);
@@ -168,6 +173,7 @@ export function Projects() {
 
 /* ---------- EXPERIENCE & EDUCATION ---------- */
 export function Experience() {
+  const { timeline } = getContent();
   const icon = (k: string) => k === "Education" ? GraduationCap : k === "Experience" ? Briefcase : BookOpen;
   return (
     <section id="experience" aria-labelledby="experience-heading" className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
@@ -194,6 +200,7 @@ export function Experience() {
 
 /* ---------- CERTIFICATES ---------- */
 export function Certificates() {
+  const { certificates } = getContent();
   return (
     <section id="certificates" aria-labelledby="certificates-heading" className="border-t border-slate-100 bg-slate-50/60 py-16 dark:border-slate-800 dark:bg-slate-900/40">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -218,6 +225,7 @@ export function Certificates() {
 interface Repo { id: number; name: string; description: string | null; language: string | null; html_url: string; stargazers_count: number; fork: boolean; }
 const CACHE_KEY = "github-repos-FAHIM23221";
 export function GitHubSection() {
+  const { site } = getContent();
   const [repos, setRepos] = useState<Repo[]>([]);
   const [status, setStatus] = useState<"loading" | "ok" | "error" | "empty">("loading");
   const [error, setError] = useState("");
@@ -278,6 +286,7 @@ export function GitHubSection() {
 
 /* ---------- CONTACT ---------- */
 export function Contact() {
+  const { site } = getContent();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -301,14 +310,14 @@ export function Contact() {
   return (
     <section id="contact" aria-labelledby="contact-heading" className="border-t border-slate-100 bg-slate-50/60 py-16 dark:border-slate-800 dark:bg-slate-900/40">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <SectionHeading eyebrow="Contact" title="Get in Touch" sub="Messages are NOT stored on this site — there is no backend yet. Submitting opens your own email app addressed to FAHIM KHAN." />
+        <SectionHeading eyebrow="Contact" title="Get in Touch" sub={`Messages are NOT stored on this site — there is no backend yet. Submitting opens your own email app addressed to ${site.name}.`} />
         <div className="grid gap-6 md:grid-cols-[1fr_1.4fr]">
           <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
             <h3 className="font-semibold text-slate-900 dark:text-white">Contact details</h3>
             <p className="mt-3 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400"><Mail className="h-4 w-4 text-sky-600" /><a className="text-sky-600 hover:underline" href={`mailto:${site.email}`}>{site.email}</a></p>
             <p className="mt-2 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400"><MapPin className="h-4 w-4 text-sky-600" />{site.location}</p>
             <div className="mt-5"><SocialLinks size="sm" /></div>
-            <p className="mt-5 rounded-xl bg-amber-50 p-3 text-xs leading-relaxed text-amber-800 dark:bg-amber-950 dark:text-amber-200">Email address above is a placeholder until FAHIM KHAN provides his real one. To store messages securely later, a backend (e.g. Cloudflare Workers + D1, or a form service) would need to be added — see README § Free-tier options.</p>
+            <p className="mt-5 rounded-xl bg-amber-50 p-3 text-xs leading-relaxed text-amber-800 dark:bg-amber-950 dark:text-amber-200">Email address above is a placeholder until {site.name} provides his real one. To store messages securely later, a backend (e.g. Cloudflare Workers + D1, or a form service) would need to be added — see README § Free-tier options.</p>
           </div>
           <form onSubmit={submit} noValidate className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
             <div className="grid gap-4 sm:grid-cols-2">
