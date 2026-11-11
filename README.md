@@ -25,7 +25,7 @@ Advanced personal portfolio website. **Free-first, static-only architecture.**
 | GitHub | Live public repos for `FAHIM23221` via `https://api.github.com/users/FAHIM23221/repos` (no token), 1-hour `localStorage` cache, graceful error/empty states |
 | Contact | Client-side validation; submit opens the visitor's own mail app (`mailto:`). **Messages are NOT stored** — no backend. |
 | Footer | Copyright, nav, socials, back-to-top |
-| Admin (`#/admin`) | **Local editor only — NOT secure, NOT a live CMS.** See below. |
+| Admin (`/admin`) | **Local editor only — NOT a live CMS.** Sign-in is enforced by Cloudflare Access on the `/admin` path (see below). |
 | 404 | Unknown `#/…` routes show a Not Found page |
 
 ## Quick start
@@ -46,16 +46,15 @@ Requires Node 18+ (tested with Node 24, npm 10).
 3. Replace `public/cv.pdf` with your real CV and `public/favicon.svg` / `public/og.svg` if you wish.
 4. Update the placeholder domain `https://personal-portfolio.pages.dev` in `index.html`, `public/robots.txt` and `public/sitemap.xml` to your real Pages URL.
 
-## Admin dashboard (`#/admin`)
+## Admin dashboard (`/admin`)
 
 **Clearly labelled in the app itself: local editor only.**
 
 - Edit profile / about text in the browser, save to `localStorage`, **Export JSON**, **Import JSON**, **Preview JSON**, **Reset**.
-- There is **no password and no login** — a client-side password would be fake security, so none was implemented.
-- **It does not update the live site.** To publish: Export JSON → copy the values into `src/config/site.ts` / `src/data/portfolio.ts` → commit to GitHub → Cloudflare Pages rebuilds automatically.
-- Anyone with access to the browser can open it. Never store secrets in it.
-
-A genuinely secure, persistent admin would need server-side auth (e.g. Cloudflare Access, or Workers + D1 with session auth) — out of scope for this static, zero-cost build. See "Security notes".
+- Sign-in is enforced by **Cloudflare Access** on the `/admin` path — only the email allowed in the Access policy can open it. There is no password inside the page itself (a client-side password would be fake security, so none was implemented). **Set up Access in the Cloudflare dashboard (Zero Trust → Access → Applications → Self-hosted, domain `myprofile.portfolio-x.workers.dev`, path `/admin*`, policy Allow + your email, login method One-Time PIN) — until then `/admin` is open to anyone.**
+- **It does not update the live site.** To publish: Export JSON → copy the values into `src/config/site.ts` / `src/data/portfolio.ts` → commit to GitHub → Cloudflare rebuilds automatically.
+- Anyone who passes Access and uses the browser can open it. Never store secrets in it.
+- Admin moved from `#/admin` (hash) to `/admin` (real path) because the server never sees a hash — Access can only guard a real path. Old `#/admin` links redirect to `/admin`.
 
 ## GitHub — create the repository
 
@@ -122,7 +121,7 @@ src/
   components/Sections.tsx  # hero, about, skills, projects, experience,
                            #   certificates, GitHub, contact
   pages/Admin.tsx       # local-only editor (NOT secure auth)
-  App.tsx               # hash routing: home / #/admin / 404
+  App.tsx               # routing: home / /admin (real path, guarded by Access) / 404
 public/
   robots.txt  sitemap.xml  _headers  favicon.svg  og.svg  cv.pdf (placeholder)
 ```

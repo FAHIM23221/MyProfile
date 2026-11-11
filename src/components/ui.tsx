@@ -61,7 +61,7 @@ export function Navbar({ dark, onToggleDark }: { dark: boolean; onToggleDark: ()
           <button onClick={onToggleDark} aria-label={dark ? "Switch to light mode" : "Switch to dark mode"} className="rounded-full border border-slate-200 p-2 text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
             {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
-          <a href="#admin" className="hidden rounded-full bg-slate-900 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-slate-700 sm:inline-block dark:bg-white dark:text-slate-900">Admin</a>
+          <a href="/admin" className="hidden rounded-full bg-slate-900 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-slate-700 sm:inline-block dark:bg-white dark:text-slate-900">Admin</a>
           <button onClick={() => setOpen((o) => !o)} aria-label="Toggle menu" aria-expanded={open} className="rounded-full border border-slate-200 p-2 text-slate-600 md:hidden dark:border-slate-700 dark:text-slate-300">
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
@@ -72,7 +72,7 @@ export function Navbar({ dark, onToggleDark }: { dark: boolean; onToggleDark: ()
           {NAV.map((n) => (
             <li key={n.href}><a onClick={() => setOpen(false)} className="block rounded-lg px-2 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800" href={n.href}>{n.label}</a></li>
           ))}
-          <li><a onClick={() => setOpen(false)} className="block rounded-lg px-2 py-2 text-sm font-medium text-sky-600" href="#admin">Admin (local editor)</a></li>
+          <li><a onClick={() => setOpen(false)} className="block rounded-lg px-2 py-2 text-sm font-medium text-sky-600" href="/admin">Admin (local editor)</a></li>
         </ul>
       )}
     </header>
@@ -145,7 +145,7 @@ export function Footer() {
             <a href="#home" className="hover:text-sky-600">Home</a>
             <a href="#projects" className="hover:text-sky-600">Projects</a>
             <a href="#contact" className="hover:text-sky-600">Contact</a>
-            <a href="#admin" className="hover:text-sky-600">Admin</a>
+            <a href="/admin" className="hover:text-sky-600">Admin</a>
             <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Back to top" className="flex items-center gap-1 rounded-full border border-slate-200 px-3 py-1.5 hover:text-sky-600 dark:border-slate-700"><ArrowUp className="h-4 w-4" /> Top</button>
           </div>
         </div>

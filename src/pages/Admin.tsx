@@ -3,12 +3,12 @@ import { AlertTriangle, Download, Eye, RotateCcw, Upload } from "lucide-react";
 import { clearDraft, getContent, saveDraft, type Content } from "../lib/content";
 
 /**
- * LOCAL EDITOR ONLY — NOT secure authentication, NOT a live CMS.
- * There is no password, no server, no database. Edits are saved to
- * THIS browser's localStorage and the home page reads that same draft,
- * so "Save locally" now shows on Home in this browser. To publish for
- * everyone: Export JSON and commit it to GitHub. Anyone with access to
- * this browser can open /admin. Never treat this as a secure admin panel.
+ * LOCAL EDITOR ONLY — NOT a live CMS.
+ * There is no password, no server, no database. Sign-in is enforced by
+ * Cloudflare Access on the /admin path (edge, before this page loads).
+ * Edits are saved to THIS browser's localStorage and the home page reads
+ * that same draft. To publish for everyone: Export JSON and commit it to
+ * GitHub. Never treat this as a secure admin panel on its own.
  */
 type Draft = Content;
 
@@ -87,10 +87,11 @@ export default function Admin() {
       <div className="rounded-2xl border-2 border-amber-300 bg-amber-50 p-5 dark:border-amber-800 dark:bg-amber-950" role="alert">
         <h1 className="flex items-center gap-2 text-xl font-bold text-amber-900 dark:text-amber-100"><AlertTriangle className="h-5 w-5" /> Admin — local editor only</h1>
         <p className="mt-2 text-sm leading-relaxed text-amber-800 dark:text-amber-200">
-          <strong>NOT secure authentication. NOT a live CMS.</strong> There is no login and no password here — by design, because a
-          client-side password would be fake security. Changes saved here show on the Home page in <em>this browser</em> only (localStorage).
+          <strong>NOT a live CMS.</strong> There is no login inside this page — sign-in is enforced by Cloudflare Access on the /admin path, so only the
+          allowed email can open it. If Access is not set up yet in the Cloudflare dashboard (Zero Trust → Access), this page is still open to
+          anyone — set it up before sharing the link. Changes saved here show on the Home page in <em>this browser</em> only (localStorage).
           To publish them for everyone: <strong>Export JSON → replace the content in src/data/portfolio.ts / src/config/site.ts → commit to GitHub</strong>.
-          The live site rebuilds from GitHub. Anyone using this browser can open this page.
+          The live site rebuilds from GitHub. Anyone using this browser can open this page once past Access.
         </p>
       </div>
 
@@ -103,7 +104,7 @@ export default function Admin() {
         </label>
         <button onClick={() => setPreview((p) => !p)} className="inline-flex items-center gap-1 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium dark:border-slate-700 dark:bg-slate-900"><Eye className="h-4 w-4" /> {preview ? "Hide preview" : "Preview JSON"}</button>
         <button onClick={reset} onBlur={() => setConfirmReset(false)} className="inline-flex items-center gap-1 rounded-full border border-red-200 bg-white px-4 py-2 text-sm font-medium text-red-600 dark:border-red-900 dark:bg-slate-900"><RotateCcw className="h-4 w-4" /> {confirmReset ? "Click again to confirm reset" : "Reset"}</button>
-        <a href="#home" className="rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white dark:bg-white dark:text-slate-900">← Back to site</a>
+        <a href="/" className="rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white dark:bg-white dark:text-slate-900">← Back to site</a>
       </div>
       {savedAt && <p className="mt-3 text-sm text-emerald-700" role="status">Saved locally at {savedAt}. It now shows on Home in this browser. Remember: it does NOT update the live site for everyone until you export + commit.</p>}
       {importMsg && <p className="mt-3 text-sm text-slate-600" role="status">{importMsg}</p>}

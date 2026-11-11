@@ -1,0 +1,4 @@
+# Admin is a real path (not a #hash) so Cloudflare Access can guard it.
+# The SPA serves index.html for /admin; App.tsx renders the admin UI.
+/admin /index.html 200
+/admin/ /index.html 200
