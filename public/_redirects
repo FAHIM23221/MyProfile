@@ -1,4 +1,6 @@
-# Admin is a real path (not a #hash) so Cloudflare Access can guard it.
-# The SPA serves index.html for /admin; App.tsx renders the admin UI.
-/admin /index.html 200
-/admin/ /index.html 200
+# No redirect rules on purpose.
+# A 200 rewrite rule for /admin -> /index.html was deployed here and the
+# live Worker answered /admin with "307 -> /" instead of serving the page,
+# while unknown paths (e.g. /nonexistent) already get index.html 200 from
+# the Worker's SPA fallback. So /admin is served by that same fallback and
+# this file is kept empty (comments only) so no rule can interfere.
